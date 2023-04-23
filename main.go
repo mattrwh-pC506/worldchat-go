@@ -33,7 +33,7 @@ func main() {
 		authHandler(password, w, r)
 	})
 	mux.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
-		wsHandler(room, w, r)
+		chatHandler(room, w, r)
 	})
 	err := http.ListenAndServe(*homeAddr, mux)
 	if err != nil {

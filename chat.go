@@ -52,7 +52,7 @@ func (client *Client) readHandler() {
 			break
 		}
 
-		message := &Message{ClientId: client.id, Payload: string(textMessage)}
+		message := &Message{Id: uuid.New(), ClientId: client.id, Payload: string(textMessage)}
 		byteMessage, err := json.Marshal(message)
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
@@ -90,9 +90,10 @@ func (client *Client) writeHandler() {
 			if message.ClientId == client.id {
 				continue
 			}
-
-			if err := client.conn.WriteJSON(message); err != nil {
-				return
+			if (Message{} != message) {
+				if err := client.conn.WriteJSON(message); err != nil {
+					return
+				}
 			}
 
 		case <-ticker.C:
@@ -104,7 +105,7 @@ func (client *Client) writeHandler() {
 	}
 }
 
-func wsHandler(room *Room, responseWriter http.ResponseWriter, request *http.Request) {
+func chatHandler(room *Room, responseWriter http.ResponseWriter, request *http.Request) {
 	conn, err := upgrader.Upgrade(responseWriter, request, nil)
 	if err != nil {
 		log.Println(err)
@@ -114,8 +115,7 @@ func wsHandler(room *Room, responseWriter http.ResponseWriter, request *http.Req
 	client.room.register <- client
 
 	store := getStore()
-	log.Println("Size", store.size)
-	for i := 0; i < store.size; i++ {
+	for i := 0; i < store.getSize(); i++ {
 		message := store.getMessageByIndex(i)
 		byteMessage, err := json.Marshal(message)
 		if err != nil {

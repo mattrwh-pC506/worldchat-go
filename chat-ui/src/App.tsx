@@ -4,43 +4,21 @@ import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import {PrimaryButton} from "./components/Buttons";
 
-const Page = styled.div`
-    width: 100vw;
-    height: 100vh;
-    background-color: #080808;
-`;
 
-const Header = styled.div`
-    width: 100vw;
-    background-color: #000000;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-start;
-`;
-
-
-function App() {
+export default function App(): JSX.Element {
     const navigate = useNavigate()
-    const handleLogout = () => {
-        localStorage.removeItem(TOKEN_STORAGE_KEY);
-        navigate("/login");
-    }
 
    useEffect(() => {
        isAuthorized().then((authorized) => {
-           if (!authorized) {
-                navigate("/login")
+           if (authorized) {
+                navigate("/chat")
+           } else {
+               navigate("/login")
            }
        })
    }, [])
 
   return (
-    <Page>
-      <Header>
-          <PrimaryButton onClick={handleLogout}>Logout</PrimaryButton>
-      </Header>
-    </Page>
+    <div />
   );
 }
-
-export default App;

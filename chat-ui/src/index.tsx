@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import Login from './Login';
+import Chat from './Chat';
+
 import reportWebVitals from './reportWebVitals';
 import {
     createHashRouter,
@@ -12,12 +14,16 @@ import {
 const router = createHashRouter([
     {
         path: "/",
-        element: <App />
+        element: <App />,
     },
     {
         path: "/login",
-        element: <Login />
-    }
+        element: <Login />,
+    },
+    {
+        path: "/chat",
+        element: <Chat />,
+    },
 ])
 
 const root = ReactDOM.createRoot(

@@ -15,13 +15,14 @@ const (
 )
 
 type Message struct {
-	Id       uuid.UUID   `json:"id"`
-	ClientId uuid.UUID   `json:"clientId"`
-	Type     MessageType `json:"type"`
-	Payload  string      `json:"payload"`
+	Id              uuid.UUID   `json:"id"`
+	ClientId        uuid.UUID   `json:"clientId"`
+	Type            MessageType `json:"type"`
+	Payload         string      `json:"payload"`
+	OriginalPayload string      `json:"originalPayload"`
 }
 
-func NewMessage(clientId uuid.UUID, messageType MessageType, payload string) (*Message, error) {
+func NewMessage(clientId uuid.UUID, messageType MessageType, payload, originalPayload string) (*Message, error) {
 	if clientId == uuid.Nil {
 		return nil, errors.New("invalid client ID")
 	}
@@ -31,23 +32,24 @@ func NewMessage(clientId uuid.UUID, messageType MessageType, payload string) (*M
 	}
 
 	return &Message{
-		Id:       uuid.New(),
-		ClientId: clientId,
-		Type:     messageType,
-		Payload:  payload,
+		Id:              uuid.New(),
+		ClientId:        clientId,
+		Type:            messageType,
+		Payload:         payload,
+		OriginalPayload: originalPayload,
 	}, nil
 }
 
 func NewTextMessage(clientId uuid.UUID, payload string) (*Message, error) {
-	return NewMessage(clientId, TextMessage, payload)
+	return NewMessage(clientId, TextMessage, payload, "")
 }
 
 func NewSuccessMessage(clientId uuid.UUID, payload string) (*Message, error) {
-	return NewMessage(clientId, SuccessMessage, payload)
+	return NewMessage(clientId, SuccessMessage, "OK", payload)
 }
 
-func NewErrorMessage(clientId uuid.UUID, payload string) (*Message, error) {
-	return NewMessage(clientId, ErrorMessage, payload)
+func NewErrorMessage(clientId uuid.UUID, payload string, originalPayload string) (*Message, error) {
+	return NewMessage(clientId, ErrorMessage, payload, originalPayload)
 }
 
 func (m *Message) ToJSON() ([]byte, error) {

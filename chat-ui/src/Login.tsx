@@ -31,7 +31,7 @@ const ErrorMessage = styled.p`
 `;
 
 
-const Login = () => {
+export default function Login(): JSX.Element {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
@@ -41,7 +41,7 @@ const Login = () => {
         setErrorMessage('');
     };
 
-    const handleSubmit = async (event: { preventDefault: () => void; }) => {
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const response = await fetch("http://localhost:8080/login", {
             method: "post",
@@ -58,7 +58,7 @@ const Login = () => {
         const payload = await response.json();
         if (payload["token"]) {
             await localStorage.setItem(TOKEN_STORAGE_KEY, payload["token"])
-            navigate("/")
+            navigate("/chat")
         }
     }
 
@@ -80,5 +80,3 @@ const Login = () => {
         </Container>
     );
 };
-
-export default Login;

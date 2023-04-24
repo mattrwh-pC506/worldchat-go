@@ -14,7 +14,7 @@ func TestChatHandler(t *testing.T) {
 	room := handlers.NewRoom()
 	s := httptest.NewServer(handlers.ChatHandler(room))
 	defer s.Close()
-	wsURL := "ws" + strings.TrimPrefix(s.URL, "http") + "/ws"
+	wsURL := "ws" + strings.TrimPrefix(s.URL, "http") + "/chat"
 	c, _, err := websocket.DefaultDialer.Dial(wsURL, nil)
 	if err != nil {
 		t.Error(err)

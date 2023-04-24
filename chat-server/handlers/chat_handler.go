@@ -99,17 +99,14 @@ func (client *Client) writePump() {
 			// Send success message to client who created message, not message itself
 			if message.ClientId == client.id {
 				successMessage, err := NewSuccessMessage(client.id, "OK")
-				log.Println("Made it!", err)
 				if err != nil {
 					continue
 				}
 				if err := client.Conn.WriteJSON(successMessage); err != nil {
-					log.Println("Made it! 2", err)
 					continue
 				}
 
 			} else {
-				log.Println("Didn't make it!", err)
 				if (Message{} != *message) {
 					if err := client.Conn.WriteJSON(message); err != nil {
 						continue

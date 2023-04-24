@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 )
 
@@ -29,7 +28,6 @@ func AuthHandler(secret []byte) http.HandlerFunc {
 		}
 
 		if valid, err := VerifyJWT(body.Token, secret); !valid || err != nil {
-			log.Println(valid, err)
 			http.Error(w, "Not authorized", http.StatusUnauthorized)
 			return
 		}

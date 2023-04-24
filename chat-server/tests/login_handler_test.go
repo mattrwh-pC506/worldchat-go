@@ -8,7 +8,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"chat-server-gorilla/handlers"
+	"chat-server/handlers"
 )
 
 func TestLoginHandler(t *testing.T) {

@@ -1,7 +1,7 @@
 package main_tests
 
 import (
-	"chat-server-gorilla/handlers"
+	"chat-server/handlers"
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 	"net/http/httptest"

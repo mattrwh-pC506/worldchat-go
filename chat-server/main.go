@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"chat-server-gorilla/handlers"
+	"chat-server/handlers"
 )
 
 func main() {
@@ -19,7 +19,7 @@ func main() {
 	secret := hash[:32]
 	flag.Parse()
 
-	log.Printf("Running chat-server-gorilla on %v\n", *homeAddr)
+	log.Printf("Running chat-server on %v\n", *homeAddr)
 
 	room := handlers.NewRoom()
 	go room.Run()

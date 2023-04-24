@@ -2,7 +2,7 @@ package main_tests
 
 import (
 	"bytes"
-	"chat-server-gorilla/handlers"
+	"chat-server/handlers"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"

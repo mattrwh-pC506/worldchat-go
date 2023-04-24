@@ -1,17 +1,18 @@
 import Button from "@mui/material/Button";
 import styled from "styled-components"
+import {BLACK, DISABLED_GREEN, GREEN} from "../styles";
 
 export const PrimaryButton = styled(Button)`
     && {
-      color: #00FF00;
+      color: ${GREEN};
       border: none;
       
       &:hover:not(:disabled) {
-        background-color: #000000;
+        background-color: ${BLACK};
       }
       
       &:disabled {
-        color: #2e5c2e;
+        color: ${DISABLED_GREEN};
         cursor: not-allowed;
       }
   }

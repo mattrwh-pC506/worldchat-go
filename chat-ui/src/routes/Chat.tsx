@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import MessageList, {Message} from "./components/MessageList";
+import MessageList, {Message} from "../components/MessageList";
 import { v4 as uuid4 } from "uuid";
 import styled from "styled-components";
-import {PrimaryButton} from "./components/Buttons";
-import {TOKEN_STORAGE_KEY} from "./auth";
+import {PrimaryButton} from "../components/Buttons";
+import {TOKEN_STORAGE_KEY} from "../auth";
 import {useNavigate} from "react-router-dom";
+import {ChatField} from "../components/FormFields";
+import {BLACK, GREEN, LIGHT_BLACK} from "../styles";
 
 interface SocketMessage {
     id: string;
@@ -18,20 +20,18 @@ interface SocketMessage {
 const Page = styled.div`
     width: 100vw;
     height: 100vh;
-    background-color: #080808;
+    background-color: ${LIGHT_BLACK};
 `;
 
 const Header = styled.div`
-    padding: 20px;
-    width: 100vw;
-    background-color: #000000;
+    padding: 0 20px 0 20px;
+    background-color: ${BLACK};
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
 `;
 
 const Title = styled.h1`
-    color: #00FF00;
+    color: ${GREEN};
 `;
 
 const Content = styled.div`
@@ -39,8 +39,12 @@ const Content = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+`;
+
+const Form = styled.form`
+    display: flex;
 `;
 
 export default function Chat(): JSX.Element {
@@ -50,6 +54,7 @@ export default function Chat(): JSX.Element {
     const [newMessage, setNewMessage] = useState<string>('');
     const [okMessages, setOkMessages] = useState<{ [key: string]: boolean }>({ x: true });
     const [badMessages, setBadMessages] = useState<{ [key: string]: boolean }>({ x: true });
+    const [externalMessages, setExternalMessages] = useState<{ [key: string]: boolean }>({ x: true });
 
     const navigate = useNavigate()
     const handleLogout = () => {
@@ -67,8 +72,9 @@ export default function Chat(): JSX.Element {
         setBadMessages(state => ({ ...state, [socketMessage.originalPayload]: true }));
     };
 
-    const handleTextMessage = (socketMessage: SocketMessage) => {
+    const handleExternalMessage = (socketMessage: SocketMessage) => {
         setMessages(state => [...state, { text: socketMessage.payload }]);
+        setExternalMessages(state => ({ ...state, [socketMessage.payload]: true}))
         setTimeout(() => {
             handleOkMessage(socketMessage);
         }, 200);
@@ -77,7 +83,7 @@ export default function Chat(): JSX.Element {
     const handleIncomingMessage = (messageText: string) => {
         const socketMessage: SocketMessage = JSON.parse(messageText);
         if (socketMessage.type == "TEXT") {
-            handleTextMessage(socketMessage);
+            handleExternalMessage(socketMessage);
         } else if (socketMessage.type == "SUCCESS") {
             // Golang is too fast! Only doing this to highlight the "pending state" for a message
             setTimeout(() => {
@@ -141,16 +147,21 @@ export default function Chat(): JSX.Element {
                 <PrimaryButton onClick={handleLogout}>Logout</PrimaryButton>
             </Header>
             <Content>
-                <MessageList messages={messages} okMessages={okMessages} badMessages={badMessages}/>
-                <form onSubmit={handleSubmit}>
-                    <input
+                <MessageList
+                    messages={messages}
+                    okMessages={okMessages}
+                    badMessages={badMessages}
+                    externalMessages={externalMessages}
+                />
+                <Form onSubmit={handleSubmit}>
+                    <ChatField
                         type="text"
                         value={newMessage}
                         onChange={handleChange}
                         placeholder="Type a message..."
                     />
-                    <button type="submit">Send</button>
-                </form>
+                    <PrimaryButton type="submit">Send</PrimaryButton>
+                </Form>
             </Content>
         </Page>
     );

@@ -1,21 +1,22 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import {useNavigate} from "react-router-dom";
-import {PrimaryButton} from "./components/Buttons";
-import {InputField} from "./components/FormFields";
-import {TOKEN_STORAGE_KEY} from "./auth";
+import {PrimaryButton} from "../components/Buttons";
+import {InputField} from "../components/FormFields";
+import {TOKEN_STORAGE_KEY} from "../auth";
+import {GREEN, LIGHT_BLACK, LIGHTEST_BLACK} from "../styles";
 
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #080808;
+  background-color: ${LIGHT_BLACK};
 `;
 
 const Box = styled.div`
   border-radius: 50px;
-  background-color: #101010;
+  background-color: ${LIGHTEST_BLACK};
   padding: 30px;
   display: flex;
   flex-direction: column;
@@ -24,7 +25,7 @@ const Box = styled.div`
 `;
 
 const ErrorMessage = styled.p`
-  color: #00FF00;
+  color: ${GREEN};
   font-size: 14px;
   margin-top: 10px;
   text-align: center;

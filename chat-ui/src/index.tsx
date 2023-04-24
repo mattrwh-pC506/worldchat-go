@@ -1,30 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import Login from './Login';
-import Chat from './Chat';
 
 import reportWebVitals from './reportWebVitals';
-import {
-    createHashRouter,
-    RouterProvider,
-} from "react-router-dom";
-
-const router = createHashRouter([
-    {
-        path: "/",
-        element: <App />,
-    },
-    {
-        path: "/login",
-        element: <Login />,
-    },
-    {
-        path: "/chat",
-        element: <Chat />,
-    },
-])
+import {router} from "./routes/router";
+import {RouterProvider} from "react-router-dom";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

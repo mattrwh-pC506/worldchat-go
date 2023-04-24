@@ -73,9 +73,18 @@ export default function Login(): JSX.Element {
                         placeholder="password"
                         value={password}
                         onChange={handleChange}
+                        inputProps={{
+                            "data-testid": "password-input",
+                        }}
                     />
                     {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                    <PrimaryButton disabled={!password} type="submit">Enter chat</PrimaryButton>
+                    <PrimaryButton
+                        data-testid="submit-login"
+                        disabled={!password}
+                        type="submit"
+                    >
+                        Enter chat
+                    </PrimaryButton>
                 </Box>
             </form>
         </Container>

@@ -28,7 +28,8 @@ func TestChatHandler(t *testing.T) {
 
 	// Expect the server to echo the message back. Timeout if not.
 	c.SetReadDeadline(time.Now().Add(time.Millisecond * 100))
-	//
+
+	// TODO: figure out why the below isn't working
 	//message := &handlers.Message{}
 	//if err := c.ReadJSON(*message); err != nil {
 	//	t.Errorf("never received a success message")

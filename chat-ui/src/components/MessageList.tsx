@@ -111,13 +111,13 @@ function MessageListComponent({ messages, okMessages, badMessages, externalMessa
 
                 if (isExternalMessage(message)) {
                     return (
-                        <ExternalMessage {...{props}}>
+                        <ExternalMessage data-testid="external-message" {...{props}}>
                             <ExternalSpeechBubble>{messageInput}</ExternalSpeechBubble>
                         </ExternalMessage>
                     )
                 } else if (isOkMessage(message)) {
                     return (
-                        <OkMessage {...{props}}>
+                        <OkMessage data-testid="ok-message" {...{props}}>
                             <InternalSpeechBubble>
                                 <SuccessMark />
                                 {messageInput}
@@ -126,14 +126,14 @@ function MessageListComponent({ messages, okMessages, badMessages, externalMessa
                     )
                 } else if (isBadMessage(message)) {
                     return (
-                        <BadMessage {...{props}}>
+                        <BadMessage data-testid="bad-message" {...{props}}>
                             <InternalSpeechBubble>{messageInput}</InternalSpeechBubble>
                         </BadMessage>
                     )
                 }
 
                 return (
-                    <PendingMessage {...{props}}>
+                    <PendingMessage data-testid="pending-message" {...{props}}>
                         <InternalSpeechBubble>{messageInput}</InternalSpeechBubble>
                     </PendingMessage>
                 );

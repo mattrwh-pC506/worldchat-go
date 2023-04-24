@@ -121,8 +121,6 @@ export default function Chat(): JSX.Element {
             setMessages(state => [...state, ...queuedMessages]);
             setQueuedMessages([]);
         }
-        // By including webSocket in our dependencies, we ensure that
-        // unsent messages get processed when new connections are made.
     }, [queuedMessages, webSocket]);
 
 
@@ -138,7 +136,7 @@ export default function Chat(): JSX.Element {
             setQueuedMessages(state => [...state, { text: `${uuid4()}|${newMessage}` }]);
             setNewMessage('');
         }
-    };
+    }
 
     return (
         <Page>

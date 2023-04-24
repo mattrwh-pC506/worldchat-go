@@ -16,11 +16,11 @@ interface SocketMessage {
     type: string;
 }
 
-
 const Page = styled.div`
     width: 100vw;
     height: 100vh;
     background-color: ${LIGHT_BLACK};
+    overflow: hidden;
 `;
 
 const Header = styled.div`

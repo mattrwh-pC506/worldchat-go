@@ -57,6 +57,7 @@ const Messages = styled.div`
     width: 100%;
     max-width: 500px;
     margin: 20px;
+    overflow: hidden;
 `;
 
 const SuccessMark = styled(CheckIcon)`

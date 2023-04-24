@@ -16,7 +16,7 @@ docker run chat
 ```
 
 ### Makefile
-If `make` is supported on your machine (as part of gcc compiler), you can do the following:
+If `make` is supported on your machine (as part of gcc/gnu compiler), you can do the following:
 ```
 # Requirements Golang=1.20.3 + Node=18.16.0
 make build

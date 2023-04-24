@@ -14,7 +14,7 @@ func TestChatHandler(t *testing.T) {
 	room := handlers.NewRoom()
 	s := httptest.NewServer(handlers.ChatHandler(room))
 	defer s.Close()
-	wsURL := "ws" + strings.TrimPrefix(s.URL, "http") + "/ws"
+	wsURL := "ws" + strings.TrimPrefix(s.URL, "http") + "/chat"
 	c, _, err := websocket.DefaultDialer.Dial(wsURL, nil)
 	if err != nil {
 		t.Error(err)
@@ -28,7 +28,8 @@ func TestChatHandler(t *testing.T) {
 
 	// Expect the server to echo the message back. Timeout if not.
 	c.SetReadDeadline(time.Now().Add(time.Millisecond * 100))
-	//
+
+	// TODO: figure out why the below isn't working
 	//message := &handlers.Message{}
 	//if err := c.ReadJSON(*message); err != nil {
 	//	t.Errorf("never received a success message")

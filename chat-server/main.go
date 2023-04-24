@@ -43,7 +43,7 @@ func main() {
 	mux.HandleFunc("/auth", handlers.AuthHandler(secret))
 
 	// Websockets
-	mux.HandleFunc("/ws", handlers.ChatHandler(room))
+	mux.HandleFunc("/chat", handlers.ChatHandler(room))
 
 	// Serve on Home Address
 	err := http.ListenAndServe(*homeAddr, mux)

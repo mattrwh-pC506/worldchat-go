@@ -1,21 +1,22 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import {useNavigate} from "react-router-dom";
-import {PrimaryButton} from "./components/Buttons";
-import {InputField} from "./components/FormFields";
-import {TOKEN_STORAGE_KEY} from "./auth";
+import {PrimaryButton} from "../components/Buttons";
+import {InputField} from "../components/FormFields";
+import {TOKEN_STORAGE_KEY} from "../auth";
+import {GREEN, LIGHT_BLACK, LIGHTEST_BLACK} from "../styles";
 
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #080808;
+  background-color: ${LIGHT_BLACK};
 `;
 
 const Box = styled.div`
   border-radius: 50px;
-  background-color: #101010;
+  background-color: ${LIGHTEST_BLACK};
   padding: 30px;
   display: flex;
   flex-direction: column;
@@ -24,14 +25,14 @@ const Box = styled.div`
 `;
 
 const ErrorMessage = styled.p`
-  color: #00FF00;
+  color: ${GREEN};
   font-size: 14px;
   margin-top: 10px;
   text-align: center;
 `;
 
 
-const Login = () => {
+export default function Login(): JSX.Element {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
@@ -41,7 +42,7 @@ const Login = () => {
         setErrorMessage('');
     };
 
-    const handleSubmit = async (event: { preventDefault: () => void; }) => {
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const response = await fetch("http://localhost:8080/login", {
             method: "post",
@@ -58,7 +59,7 @@ const Login = () => {
         const payload = await response.json();
         if (payload["token"]) {
             await localStorage.setItem(TOKEN_STORAGE_KEY, payload["token"])
-            navigate("/")
+            navigate("/chat")
         }
     }
 
@@ -72,13 +73,20 @@ const Login = () => {
                         placeholder="password"
                         value={password}
                         onChange={handleChange}
+                        inputProps={{
+                            "data-testid": "password-input",
+                        }}
                     />
                     {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                    <PrimaryButton disabled={!password} type="submit">Enter chat</PrimaryButton>
+                    <PrimaryButton
+                        data-testid="submit-login"
+                        disabled={!password}
+                        type="submit"
+                    >
+                        Enter chat
+                    </PrimaryButton>
                 </Box>
             </form>
         </Container>
     );
 };
-
-export default Login;

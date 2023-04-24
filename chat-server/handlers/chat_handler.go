@@ -46,6 +46,9 @@ func (client *Client) readPump() {
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 				log.Printf("Client.readPump ERROR on client.conn.ReadMessage!: %v", err)
+				if errorMessage, err := NewErrorMessage(client.id, "InternalServerError", string(textMessage)); err != nil {
+					client.Conn.WriteJSON(errorMessage)
+				}
 			}
 			break
 		}
@@ -53,6 +56,9 @@ func (client *Client) readPump() {
 		message, err := NewTextMessage(client.id, string(textMessage))
 		if err != nil {
 			log.Printf("Client.readPump ERROR creating NewTextMessage!: %v", err)
+			if errorMessage, err := NewErrorMessage(client.id, "InternalServerError", string(textMessage)); err != nil {
+				client.Conn.WriteJSON(errorMessage)
+			}
 			return
 		}
 
@@ -60,6 +66,9 @@ func (client *Client) readPump() {
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 				log.Printf("Client.readPump ERROR on message.ToJSON!: %v", err)
+				if errorMessage, err := NewErrorMessage(client.id, "InternalServerError", string(textMessage)); err != nil {
+					client.Conn.WriteJSON(errorMessage)
+				}
 			}
 			break
 		}
@@ -75,7 +84,7 @@ func (client *Client) writePump() {
 	defer func() {
 		ticker.Stop()
 		client.Conn.Close()
-		errorMessage, err := NewErrorMessage(client.id, "InternalServerError")
+		errorMessage, err := NewErrorMessage(client.id, "InternalServerError", "")
 		if err != nil {
 			client.Conn.WriteJSON(errorMessage)
 		}
@@ -98,7 +107,7 @@ func (client *Client) writePump() {
 
 			// Send success message to client who created message, not message itself
 			if message.ClientId == client.id {
-				successMessage, err := NewSuccessMessage(client.id, "OK")
+				successMessage, err := NewSuccessMessage(client.id, message.Payload)
 				if err != nil {
 					continue
 				}

@@ -23,7 +23,7 @@ WCG_PASSWORD=<YOUR_PASSWORD> make build
 ```
 
 ### Using the application
-The password will be whatever you set in <YOUR_PASSWORD> in the setup steps above. Once you are in that chat, you can type and submit messages, either by clicking Send or hitting the Enter key. As a new user, logging in, you should see a list of existing messages for that server session.
+The password will be whatever you set in <YOUR_PASSWORD> in the setup steps above. Once you are in that chat, you can type and submit messages, either by clicking Send or hitting the Enter key. As a new user, logging in, you should see a list of existing messages for that server session. A logout button was added for convenience, since our JWT token is stored in localstorage and we'd otherwise need to clear that or wait till the JWT expires to test subsequent logins.
 
 ### Requirements
 

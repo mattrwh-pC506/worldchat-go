@@ -18,4 +18,4 @@ WORKDIR /app
 COPY --from=react-builder /app/build /app/build
 COPY --from=go-builder /app/$GO_APP_NAME /app/$GO_APP_NAME
 
-CMD ["./chat-server.exe"]
+CMD ["./chat-server"]

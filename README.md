@@ -7,6 +7,14 @@ https://user-images.githubusercontent.com/6784933/234136980-96829fe0-aefd-4eed-8
 
 ## Setup
 
+### Dockerfile
+This can be run with docker using the following commands:
+```
+export WCG_PASSWORD=Mellon
+docker build -t worldchat-go --build-arg pwd=$WCG_PASSWORD .
+docker run -p 8080:8080 --name=worldchat-go-container worldchat-go
+```
+
 ### Makefile
 If `make` is supported on your machine (as part of gcc/gnu compiler), you can do the following:
 ```

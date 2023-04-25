@@ -10,7 +10,7 @@ https://user-images.githubusercontent.com/6784933/234136980-96829fe0-aefd-4eed-8
 ### Dockerfile
 This can be run with docker using the following commands:
 ```
-export WCG_PASSWORD=Mellon
+export WCG_PASSWORD=<YOUR_PASSWORD>
 docker build -t worldchat-go --build-arg pwd=$WCG_PASSWORD .
 docker run -p 8080:8080 --name=worldchat-go-container worldchat-go
 ```
@@ -19,8 +19,11 @@ docker run -p 8080:8080 --name=worldchat-go-container worldchat-go
 If `make` is supported on your machine (as part of gcc/gnu compiler), you can do the following:
 ```
 # Requirements Golang=1.20.3 + Node=18.16.0
-WCG_PASSWORD=YOUR_PASSWORD make build
+WCG_PASSWORD=<YOUR_PASSWORD> make build
 ```
+
+### Using the application
+The password will be whatever you set in <YOUR_PASSWORD> in the setup steps above. Once you are in that chat, you can type and submit messages, either by clicking Send or hitting the Enter key. As a new user, logging in, you should see a list of existing messages for that server session.
 
 ### Notes/Quirks/Things I would do if I had all the time in the world :)
 - This app has a naive approach to password management, in that when the server is started, it uses whatever value you've set for WCG_PASSWORD. It then generates a secret token from that password value to authorize logins and auth checks. For a real application, we would handle this with an actual secret key, stored in a secured key vault, and we would also have the concept of true users, with their own usernames and passwords.
